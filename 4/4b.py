@@ -37,7 +37,6 @@ for guard in sleeptime.keys():
 	if sleeptime[guard]:
 		
 		maxsleep[guard] = max(sleeptime[guard],key=sleeptime[guard].get)
-		print(guard,maxsleep[guard],sleeptime[guard][maxsleep[guard]],guard*sleeptime[guard][maxsleep[guard]])
+		print(guard,maxsleep[guard],sleeptime[guard][maxsleep[guard]],guard*maxsleep[guard])
 
 
-	
