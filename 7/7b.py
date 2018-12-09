@@ -1,4 +1,4 @@
-file= open('testinput','r')
+file= open('input','r')
 source=file.readlines()
 file.close()
 
@@ -64,29 +64,34 @@ for line in source:
 	if not answer.index(line.split(" ")[1]) < answer.index(line.split(" ")[7]):
 		print("Error:",line)
 
-workers = 2
-totaltime = ord(completed[0])-64+60
 
-todo = completed
-done=[completed[0]]
-todo.remove(completed[0])
-available=list()
-next_end_time = [0:2,totaltime:2]
 
-workers_available = workers
-while len(done) < len(completed):
-	a=list()
-	todo_copy = list(todo)
-	for i in todo_copy:
-		if set(reverse[i].after()).issubset(done):
-			a.append(i)
-	available = list(sorted(a,reverse=True))
-	while workers_available <= workers:
-		if len(available) > 0:
-			job = available.pop()
-			totaltime i+= ord(job)-64+60
-			next_end_time.append(totaltime:1)
+import networkx as nx
+
+G=nx.DiGraph()
+for line in source:
+	G.add_edge(line.split(' ')[1],line.split(' ')[7])
+print(''.join(nx.lexicographical_topological_sort(G)))
+
+task_times=[]
+tasks=[]
+time = 0
+completed = list()
+
+while task_times or G:
+	available_tasks =[t for t in G if t not in tasks and G.in_degree(t) ==0]
+	if available_tasks and len(task_times) < 5:
+		task = min(available_tasks)
+		task_times.append(ord(task) -4)
+		tasks.append(task)
+	else:
+		min_time = min(task_times)
+		completed = [tasks[i] for i,v in enumerate(task_times) if v == min_time]
+		task_times = [ v- min_time for v in task_times if v > min_time]
+		tasks = [t for t in tasks if t not in completed]
+		time += min_time
+		G.remove_nodes_from(completed)
+
+print(time)
 	
-	
-print(done)
 	
