@@ -1,5 +1,3 @@
-import sys
-sys.setrecursionlimit(10**6)
 file = open('testinput','r')
 source = file.read()
 file.close()
@@ -8,7 +6,8 @@ print(source)
 stringinput = source.rstrip().split(' ')
 input = [int(x) for x in stringinput]
 
-#input = [1, 4, 0,1,9, 2, 3, 4, 5]
+
+input = [1, 4, 0,1,9, 2, 3, 4, 5]
 print(input)
 
 def anychildren(start):
@@ -25,21 +24,29 @@ def metadatalist(number,start):
 	
 	return metalist,start
 
-def check(start):
-	num_meta = input[start+1]
-	print('number of children: ',input[start],'number of metavariables',num_meta)
-	if not anychildren(start):
-		data,start = metadatalist(num_meta,start+2)
-		metadata.extend(data)
+def check(input):
+	start=1
+	num_meta = input[1]
+	if input[0] == 0: # number of children = 0
+		metadata.extend(input[2:2+num_meta])
+		newinput = input[2:2+num_meta]
+	
+		print('number of children: ',input[0],'number of metavariables',num_meta,"metas =",input[-num_meta:])
 	else:
-		for i in range(input[start]):
-			start = check(start+2)
-		data, start = metadatalist(num_meta,start)
-		metadata.extend(data)
-	return start
+		# now comes a number of children.
+		# we have to keep track of the number of children, because
+		# at the end, there's some metadata for this level we have to collect.
+		print(input)
+		for i in range(input[0]):
+			newinput = check(input[2:])
+
+	return newinput
+
+	
 
 metadata=[]
 
-check(0)
+while len(input) >0:
+	input = check(input)
 print(metadata)
 print(sum(metadata))
