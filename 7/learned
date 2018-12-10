@@ -1,0 +1,3 @@
+python -m pudb program name # for debugging python
+
+networkx  ## find out more about this library
