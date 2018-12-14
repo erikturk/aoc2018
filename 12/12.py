@@ -70,7 +70,7 @@ while len(potdictgen) <= 20:
 
 	
 	
-	for i in range(max(potdict.keys())+4):
+	for i in range(min(potdict.keys()),max(potdict.keys())+4):
 		testpot=""
 		for j in range(i-2,i+3):
 			if j in potdict:
@@ -80,6 +80,12 @@ while len(potdictgen) <= 20:
 		nextpotdict[i]=tester(testpot)
 
 	printgen(nextpotdict)
+	if nextpotdict[min(list(nextpotdict.keys()))] == '.' and min(list(nextpotdict.keys())) < 0:
+		print('foundone')
+		print(min(list(nextpotdict.keys())))
+		print(nextpotdict[min(list(nextpotdict.keys()))])
+		
+		del nextpotdict[min(list(nextpotdict.keys()))]
 	potdictgen.append(nextpotdict)
 	potdict = potdictgen[-1]
 	printgen(potdict)
